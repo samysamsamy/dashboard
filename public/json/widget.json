@@ -1,0 +1,55 @@
+{
+  " client ": {
+    " host ": ""
+  } ,
+  " server ": {
+    " current_time ": 0 ,
+    " services ": [{
+      " name ": " weather " ,
+      " widgets ": [{
+        " name ": " city_temperature " ,
+        " description ": " Display temperature for a city " ,
+        " params ": [{
+          " name ": " city " ,
+          " type ": " string "
+        }]
+      }]
+    },
+      {
+        " name ": " NASA " ,
+        " widgets ": [{
+          " name ": " Get Space Image " ,
+          " description ": " Display space image " ,
+          " params ": [{
+            " name ": " date " ,
+            " type ": " string "
+          }]
+        }]
+      },
+      {
+        " name ": " converter " ,
+        " widgets ": [{
+          " name ": " get all rate from monney " ,
+          " description ": " get all conversion rate from a monney " ,
+          " params ": [{
+            " name ": " monney " ,
+            " type ": " string "
+          },
+            {
+              " name ": " convert monney " ,
+              " description ": " Convert your monney " ,
+              " params ": [
+                {
+                  " name ": " monney " ,
+                  " type ": " string "
+                },
+                {
+                  " name ": " monney " ,
+                  " type ": " string "
+                }
+              ]
+        }]
+      }]
+  }]
+  }
+}

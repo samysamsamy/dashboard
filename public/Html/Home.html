@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+
+<head>
+    <META name="language" content="fr">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="description" content="Epitech: Dashboard project">
+    <meta name="author" content="Samy & Antonin">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <script src="../Scripts/libs/jquery.js"></script>
+    <script src="../Scripts/libs/popper.js"></script>
+    <script src="../Scripts/libs/bootstrap.js"></script>
+    <script src="../Scripts/libs/mdb.js"></script>
+    <script src="../Scripts/libs/jquery-ui.js"></script>
+    <script src="../Scripts/libs/jquery-ui-touch-punch.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/libs/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/libs/mdb.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/draggable.css">
+
+    <title>Dashboard</title>
+</head>
+
+<body id="mybody">
+
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark light-blue">
+        <a class="navbar-brand" href="#"><strong>Dashboard</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+            aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <p id="WelcomMsg" class="navbar-brand" style="margin: 0px;"></p>
+        <script type="text/javascript">
+            function getUserData() {
+                $("#WeatherPannel").hide()
+                $("#NasaPannel").hide()
+                $("#ConverterPannel").hide()
+                $("#LichessPannel").hide()
+                $("#CPannel").hide()
+                $("#CountryPannel").hide()
+
+                $("#check1").prop("checked", false);
+                $("#check2").prop("checked", false);
+                $("#check3").prop("checked", false);
+                $("#check4").prop("checked", false);
+                $("#check5").prop("checked", false);
+                $("#check6").prop("checked", false);
+
+                fetch('http://localhost:8080/profil', {
+                    method: 'get'
+                })
+                    .then((response) => {
+                        response.json().then((res) => {
+                            $("#WelcomMsg").show()
+                            $("#WelcomMsg").text("Welcome " + res.name)
+                            if (res.widget1 == 1) {
+                                $("#WeatherPannel").show()
+                                $("#check1").prop("checked", true);
+                            }
+                            if (res.widget2 == 1) {
+                                $("#NasaPannel").show()
+                                $("#check2").prop("checked", true);
+                            }
+                            if (res.widget3 == 1) {
+                                $("#ConverterPannel").show()
+                                $("#check3").prop("checked", true);
+                            }
+                            if (res.widget4 == 1) {
+                                $("#LichessPannel").show()
+                                $("#check4").prop("checked", true);
+                            }
+                            if (res.widget5 == 1) {
+                                $("#CPannel").show()
+                                $("#check5").prop("checked", true);
+                            }
+                            if (res.widget6 == 1) {
+                                $("#CountryPannel").show()
+                                $("#check6").prop("checked", true);
+                            }
+                        })
+                    }).catch((e) => {
+                        console.log(e)
+                    })
+            }
+        </script>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> Account
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                        aria-labelledby="navbarDropdownMenuLink-333">
+                        <a id="login" data-toggle="modal" data-target="#RegisterModal">login/register</a>
+                        <a id="logout" onclick="logout()">logout</a>
+                        <script type="text/javascript">
+                            $("#logout").hide()
+
+                            function logout() {
+                                fetch('http://localhost:8080/logout', {
+                                    method: 'get'
+                                })
+                                    .then((response) => {
+                                    }).catch((e) => {
+                                        console.log(e)
+                                    })
+                                $("#WelcomMsg").hide()
+                                $("#login").show()
+                                $("#logout").hide()
+
+                                $("#WeatherPannel").hide()
+                                $("#NasaPannel").hide()
+                                $("#ConverterPannel").hide()
+                                $("#LichessPannel").hide()
+                                $("#CPannel").hide()
+                                $("#CountryPannel").hide()
+                                $("#logout-msg").show()
+
+                                $("#check1").prop("checked", false);
+                                $("#check2").prop("checked", false);
+                                $("#check3").prop("checked", false);
+                                $("#check4").prop("checked", false);
+                                $("#check5").prop("checked", false);
+                                $("#check6").prop("checked", false);
+                            }
+                        </script>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+
+        <div class="dropdown">
+            <a class="btn btn-info dropdown-toggle" href="#" role="button" id="widgetBtn" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                My widgets
+            </a>
+
+            <div class="dropdown-menu">
+                <form class="px-4 py-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check1">
+                        <label class="form-check-label" for="check1">
+                            Weather
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check2">
+                        <label class="form-check-label" for="check2">
+                            Nasa day Picture
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check3">
+                        <label class="form-check-label" for="check3">
+                            Converter
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check4">
+                        <label class="form-check-label" for="check4">
+                            Lichess Player
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check5">
+                        <label class="form-check-label" for="check5">
+                            C panel
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check6">
+                        <label class="form-check-label" for="check6">
+                            Locate IP
+                        </label>
+                    </div>
+                </form>
+                <script>
+                    $("#widgetBtn").click(function () {
+                        $("#logout-msg").hide()
+                    });
+
+                    $("#check1").click(function () {
+                        if ($("#check1").is(':checked'))
+                            $("#WeatherPannel").show()
+                        else
+                            $("#WeatherPannel").hide()
+                        fetch('http://localhost:8080/widget', {
+                            method: 'post', body: "widget=widget1 &val=" + $("#check1").is(':checked'), headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            }
+                        })
+                    });
+                    $("#check2").click(function () {
+                        if ($("#check2").is(':checked'))
+                            $("#NasaPannel").show()
+                        else
+                            $("#NasaPannel").hide()
+                        fetch('http://localhost:8080/widget', {
+                            method: 'post', body: "widget=widget2 &val=" + $("#check2").is(':checked'), headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            }
+                        })
+                    });
+                    $("#check3").click(function () {
+                        if ($("#check3").is(':checked'))
+                            $("#ConverterPannel").show()
+                        else
+                            $("#ConverterPannel").hide()
+                        fetch('http://localhost:8080/widget', {
+                            method: 'post', body: "widget=widget3 &val=" + $("#check3").is(':checked'), headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            }
+                        })
+                    });
+                    $("#check4").click(function () {
+                        if ($("#check4").is(':checked'))
+                            $("#LichessPannel").show()
+                        else
+                            $("#LichessPannel").hide()
+
+                        fetch('http://localhost:8080/widget', {
+                            method: 'post', body: "widget=widget4 &val=" + $("#check4").is(':checked'), headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            }
+                        })
+                    });
+                    $("#check5").click(function () {
+                        if ($("#check5").is(':checked'))
+                            $("#CPannel").show()
+                        else
+                            $("#CPannel").hide()
+                        fetch('http://localhost:8080/widget', {
+                            method: 'post', body: "widget=widget5 &val=" + $("#check5").is(':checked'), headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            }
+                        })
+                    });
+                    $("#check6").click(function () {
+                        if ($("#check6").is(':checked'))
+                            $("#CountryPannel").show()
+                        else
+                            $("#CountryPannel").hide()
+
+                        fetch('http://localhost:8080/widget', {
+                            method: 'post', body: "widget=widget6 &val=" + $("#check6").is(':checked'), headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            }
+                        })
+                    });
+                </script>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+
+
+            <div class="col-12" id="logout-msg">
+                <h1 style="margin-left: 40px"><i class="fas fa-arrow-up"></i> start adding widgets</h1>
+            </div>
+
+            <div id="WeatherPannel" class="container-fluid col-3 ">
+                <div class="container-fluid mt-3 text-center">
+                    <div class="card">
+                        <div class="card gradient-card-header peach-gradient">
+                            <div class="col-12 row flex justify-content-between">
+                                <p class="m-2 ml-3 text-white"><strong>Météo</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="card-body card-body-cascade">
+                            <script type="text/javascript">
+                                $('#WeatherPannel').draggable({
+                                    containment: '.draggable-container',
+                                });
+                                ;
+                                function getWeather() {
+                                    let weather = "pending"
+                                    city = document.getElementById("WeatherInput").value
+                                    fetch('http://localhost:8080/cityWeather', {
+                                        method: 'post', body: "city=" + city, headers: {
+                                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                        }
+                                    })
+                                        .then((response) => {
+                                            response.json().then((res) => {
+                                                $("#refreshWeather").html(Math.floor(res.temperature) + " degrees")
+                                            })
+                                        }).catch((e) => {
+                                            console.log(e)
+                                        })
+                                }
+                            </script>
+                            <!-- <div class="input-group mb-3">
+                                <input id="WeatherInput" type="text" class="form-control" placeholder="Select a city"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            </div> -->
+
+                            <div class="md-form input-group mb-3">
+                                <input id="WeatherInput" type="text" class="form-control" placeholder="Select a city"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-md btn-info text-center"
+                                        onclick="getWeather()"><i
+                                            class="fas fa-thermometer-three-quarters"></i></button>
+                                </div>
+                            </div>
+
+                            <p id="refreshWeather" class="card-text">
+
+                            </p>
+                            <!-- <button type="button" class="btn btn-primary text-center" onclick="getWeather()">Ask for
+                                weather</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="NasaPannel" class="container-fluid col-3">
+                <div class="container-fluid mt-3 text-center">
+                    <div class="card">
+                        <img id="NasaImage" class="card-img-top"
+                            src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+                            alt="Card image cap">
+                        <div class="card-body">
+                            <!-- <h5 class="card-title">NASA</h5>
+                            <p class="card-text">Select a date and ask for your image</p> -->
+                            <!-- <div class="input-group mb-3">
+                                <input id="NasaInput" type="text" class="form-control" placeholder="YYYY-MM-DD"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            </div>
+                            <button href="#" class="btn btn-primary" onclick="getNasaImage()">Ask for your
+                                image</button> -->
+
+                            <div class="md-form input-group mb-3">
+                                <input id="NasaInput" type="text" class="form-control" placeholder="date"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button href="#" class="btn btn-md btn-info" onclick="getNasaImage()"><i
+                                            class="fas fa-images"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+                            $('#NasaPannel').draggable({
+                                containment: '.draggable-container',
+                            });
+                            function getNasaImage() {
+                                date = document.getElementById("NasaInput").value
+                                fetch('http://localhost:8080/nasa', {
+                                    method: 'post', body: "date=" + date, headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                    }
+                                }).then((response) => {
+                                    response.json().then((res) => {
+                                        $("#NasaImage").attr("src", res.url)
+                                        console.log("pass")
+                                    })
+                                }).catch((er) => {
+                                    console.log(er)
+                                })
+                            }
+                        </script>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="ConverterPannel" class="container-fluid col-3">
+                <div class="card">
+                    <div class="card gradient-card-header blue-gradient">
+                        <div class="col-12 row flex justify-content-between">
+                            <p class="m-2 ml-3 text-white"><strong>Converter (euro to dollard)
+                                </strong></p>
+                        </div>
+                    </div>
+                    <!-- <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input id="ConverterInput" type="text" class="form-control" placeholder="EUR"
+                                aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        </div>
+                        <button href="#" class="btn btn-primary" onclick="Converter()">Convert</button>
+                    </div>
+                     -->
+
+                    <div class="md-form input-group mb-3">
+                        <input id="ConverterInput" type="text" class="form-control" placeholder="amount (€)"
+                            aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button href="#" class="btn btn-md btn-info" onclick="Converter()"><i
+                                    class="fas fa-exchange-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center">
+                        <p id="ConvertResult"></p>
+                    </div>
+
+                    <script type="text/javascript">
+                        $('#ConverterPannel').draggable({
+                            containment: '.draggable-container',
+                        });
+                        function Converter() {
+                            qty = document.getElementById("ConverterInput").value
+                            console.log(qty)
+                            fetch('http://localhost:8080/converter', {
+                                method: 'post', body: "from=EUR&to=USD&quantity=" + qty, headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                }
+                            }).then((response) => {
+                                response.json().then((res) => {
+                                    $("#ConvertResult").html($("#ConverterInput").val() + " <i class='fas fa-euro-sign'></i>  = " + res.converted.quantity + " <i class='fas fa-dollar-sign'></i>")
+                                })
+                            }).catch((er) => {
+                                console.log(er)
+                            })
+                        }
+                    </script>
+
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div id="LichessPannel" class="container-fluid col-3 position-relative">
+                    <div class="card">
+                        <div class="card gradient-card-header purple-gradient">
+                            <div class="col-12 row flex justify-content-between">
+                                <p class="m-2 ml-3 text-white"><strong>Lichess player info
+                                    </strong></p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- <div class="input-group mb-3">
+                                <input id="LichessInput" type="text" class="form-control" placeholder="Samsagaz"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            </div>
+                            <button href="#" class="btn btn-primary" onclick="Lichess()">Get info</button> -->
+                            <div class="md-form input-group mb-3">
+                                <input id="LichessInput" type="text" class="form-control" placeholder="Samsagaz"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button href="#" class="btn btn-md btn-info" onclick="Lichess()"><i
+                                            class="fas fa-info"></i></button>
+                                </div>
+                            </div>
+
+                            <p id="LichessResult"></p>
+                        </div>
+
+                    </div>
+                    <script type="text/javascript">
+                        $('#LichessPannel').draggable({
+                            containment: '.draggable-container',
+                        });
+                        function Lichess() {
+                            username = document.getElementById("LichessInput").value
+                            console.log(username)
+                            fetch('http://localhost:8080/lichess', {
+                                method: 'post', body: "username=" + username, headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                }
+                            }).then((response) => {
+                                response.json().then((res) => {
+                                    $("#LichessResult").html("<i class='fas fa-user'></i> Player " + $("#LichessInput").val() + "</br><i class='fas fa-chess-pawn'></i>  Games played : " + res.info.games + "</br><i class='fas fa-location-arrow'></i> Rank : " + res.info.rating)
+                                    console.log('pass')
+                                })
+                            }).catch((er) => {
+                                console.log(er)
+                            })
+                        }
+                    </script>
+                </div>
+
+                <div id="CPannel" class="container-fluid col-3">
+                    <div class="card">
+                        <div class="card gradient-card-header aqua-gradient">
+                            <div class="col-12 row flex justify-content-between">
+                                <p class="m-2 ml-3 text-white"><strong>Exchange rate
+                                    </strong></p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- <div class="input-group mb-3">
+                                <input id="CInput1" type="text" class="form-control" placeholder="FROM"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <input id="CInput2" type="text" class="form-control" placeholder="TO"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            </div>
+                            <button href="#" class="btn btn-primary" onclick="FromTo()">Convert</button> -->
+
+
+                            <div class="md-form input-group">
+                                <input id="CInput1" type="text" class="form-control" placeholder="FROM"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <input id="CInput2" type="text" class="form-control" placeholder="TO"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button href="#" class="btn btn-md btn-primary" onclick="FromTo()"><i class="fas fa-calculator"></i></button>
+                                </div>
+                            </div>
+
+                            <p id="CResult"> 0 </p>
+                        </div>
+
+                        <script type="text/javascript">
+                            $('#CPannel').draggable({
+                                containment: '.draggable-container',
+                            });
+                            function FromTo() {
+                                from = document.getElementById("CInput1").value
+                                to = document.getElementById("CInput2").value
+                                fetch('http://localhost:8080/converter', {
+                                    method: 'post', body: "from=" + from + "&to=" + to + "&quantity=1", headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                    }
+                                }).then((response) => {
+                                    response.json().then((res) => {
+                                        $("#CResult").html("Exchange rate : " + res.converted.quantity)
+                                    })
+                                }).catch((er) => {
+                                    console.log(er)
+                                })
+                            }
+                        </script>
+
+                    </div>
+                </div>
+
+                <div id="CountryPannel" class="container-fluid col-3">
+                    <div class="card">
+                        <div class="card gradient-card-header morpheus-den-gradient">
+                            <div class="col-12 row flex justify-content-between">
+                                <p class="m-2 ml-3 text-white"><strong>Locate IP
+                                    </strong></p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- <div class="input-group mb-3">
+                                <input id="CountryInput" type="text" class="form-control" placeholder="5.6.7.8"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            </div>
+                            <button href="#" class="btn btn-primary" onclick="country()">search</button> -->
+
+                            <div class="md-form input-group mb-3">
+                                <input id="CountryInput" type="text" class="form-control" placeholder="5.6.7.8"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button href="#" class="btn btn-md btn-primary" onclick="country()"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+
+
+                            <p id="CountryResult"></p>
+                        </div>
+
+                        <script type="text/javascript">
+                            $('#CountryPannel').draggable({
+                                containment: '.draggable-container',
+                            });
+                            function country() {
+                                ip = document.getElementById("CountryInput").value
+                                fetch('http://localhost:8080/country', {
+                                    method: 'post', body: "ip=" + ip, headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                    }
+                                }).then((response) => {
+                                    response.json().then((res) => {
+                                        console.log('pass')
+                                        $("#CountryResult").html("The IP adress is from " + res.Country)
+                                    })
+                                }).catch((er) => {
+                                    console.log(er)
+                                })
+                            }
+                        </script>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORM MODALS -->
+
+            <!-- REGISTER FORM -->
+
+            <div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <ul class="nav nav-tabs nav-justified md-tabs indigo" id="myTabJust" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab-just" data-toggle="tab" href="#home-just"
+                                    role="tab" aria-controls="home-just" aria-selected="true">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab-just" data-toggle="tab" href="#profile-just"
+                                    role="tab" aria-controls="profile-just" aria-selected="false">Login</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content card pt-5" id="myTabContentJust">
+                            <div class="tab-pane fade show active" id="home-just" role="tabpanel"
+                                aria-labelledby="home-tab-just">
+                                <div class="md-form input-with-post-icon">
+                                    <i class="fas fa-user input-prefix"></i>
+                                    <input type="text" id="userName" class="form-control">
+                                    <label for="userName">Name </label>
+                                </div>
+                                <div class="md-form input-with-post-icon">
+                                    <i class="fas fa-user input-prefix"></i>
+                                    <input type="text" id="userEmail" class="form-control">
+                                    <label for="userEmail">Email </label>
+                                </div>
+                                <div class="md-form input-with-post-icon">
+                                    <i class="fas fa-user input-prefix"></i>
+                                    <input type="text" id="userPassword" class="form-control">
+                                    <label for="userPassword">Password </label>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="Register()">Signup</button>
+
+                                <script type="text/javascript">
+                                    function Register() {
+                                        userName = $("#userName").val()
+                                        userEmail = $("#userEmail").val()
+                                        userPassword = $("#userPassword").val()
+                                        fetch('http://localhost:8080/register', {
+                                            method: 'post', body: "user=" + userName + "&email=" + userEmail + "&password=" + userPassword, headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                            }
+                                        }).then((response) => {
+                                            console.log(response)
+                                        })
+                                        $('#RegisterModal').modal('hide')
+                                        getUserData();
+                                        $("#login").hide()
+                                        $("#logout").show()
+                                        $("#logout-msg").hide()
+
+                                    }
+                                </script>
+
+
+                            </div>
+                            <div class="tab-pane fade" id="profile-just" role="tabpanel"
+                                aria-labelledby="profile-tab-just">
+
+                                <div class="md-form input-with-post-icon">
+                                    <i class="fas fa-user input-prefix"></i>
+                                    <input type="text" id="userEmailLogin" class="form-control">
+                                    <label for="userEmailLogin">Email </label>
+                                </div>
+                                <div class="md-form input-with-post-icon">
+                                    <i class="fas fa-user input-prefix"></i>
+                                    <input type="password" id="userPasswordLogin" class="form-control">
+                                    <label for="userPasswordLogin">Password </label>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="Login()">Login</button>
+
+
+                                <script type="text/javascript">
+                                    function Login() {
+                                        userEmailLogin = $("#userEmailLogin").val()
+                                        userPasswordLogin = $("#userPasswordLogin").val()
+                                        fetch('http://localhost:8080/login', {
+                                            method: 'post', body: "email=" + userEmailLogin + "&password=" + userPasswordLogin, headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                            }
+                                        }).then((response) => {
+                                            response.json().then((res) => {
+                                                console.log(response)
+                                                if (res.msg != "none") {
+                                                    $('#RegisterModal').modal('hide');
+                                                    getUserData();
+                                                    $("#login").hide();
+                                                    $("#logout").show();
+                                                    $("#logout-msg").hide()
+
+                                                }
+                                            })
+
+                                        })
+                                    }
+                                </script>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REGISTER FORM -->
+
+                <!-- FORM MODALS -->
+
+
+                <script>
+                    $("#WeatherPannel").hide()
+                    $("#NasaPannel").hide()
+                    $("#ConverterPannel").hide()
+                    $("#LichessPannel").hide()
+                    $("#CPannel").hide()
+                    $("#CountryPannel").hide()
+                    $("#logout-msg").show()
+
+                    $("#check1").prop("checked", false);
+                    $("#check2").prop("checked", false);
+                    $("#check3").prop("checked", false);
+                    $("#check4").prop("checked", false);
+                    $("#check5").prop("checked", false);
+                    $("#check6").prop("checked", false);
+                </script>
+
+</body>
+
+</html>

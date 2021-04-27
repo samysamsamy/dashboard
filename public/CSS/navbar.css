@@ -1,0 +1,15 @@
+.navbar {
+    background-color: #3498db !important;
+}
+
+.color {
+    color: black;
+}
+
+.color:hover {
+    color: black;
+}
+
+.my-body {
+    background-color: grey;
+}
