@@ -14,9 +14,9 @@ you can now register or login.
 
 Then, select the services you want to use, and use the !
 
-##Widget
+## Widget
 
-###Weather
+### Weather
 
 Select a city and press the button to get the city current Weather
 
