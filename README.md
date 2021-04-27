@@ -1,4 +1,4 @@
-#Dashboard
+# Dashboard
 
 How to run it
 
@@ -6,7 +6,7 @@ How to run it
 
 **then go to http://localhost:8080**
 
-##how to use it
+## how to use it
 
 You have to connect to our dashboard by using the account section
 
@@ -32,12 +32,12 @@ exemple format : EUR, USD
 ### Converter
 Convert monney from EUR to USD
 
-###Lichess
+### Lichess
 
 Get information about lichess player
 
 Exemple : Samsagaz
 
-###Locate IP
+### Locate IP
 
 Locate an ip
